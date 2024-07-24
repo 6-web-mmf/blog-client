@@ -1,19 +1,19 @@
-import axios from "axios";
-import { IAuth, IAuthResponse } from "../types/auth.type";
+import instance from "../api/axios";
+import { IAuthResponse, IRegisterRequest, ISignInRequest } from "../types/auth.type";
 import { TokenService } from "./token.service";
 
 
 export class AuthService {
 
-    public static async register(data: IAuth){
-        const response = await axios.post<IAuthResponse>('/register', data)
+    public static async register(data: IRegisterRequest){
+        const response = await instance.post<IAuthResponse>('/register', data)
         const { token } = response.data
         TokenService.saveAccessToken(token)
         return token
     }
 
-    public static async login(data: IAuth){
-        const response = await axios.post<IAuthResponse>('/login', data)
+    public static async login(data: ISignInRequest){
+        const response = await instance.post<IAuthResponse>('/login', data)
         const { token } = response.data 
         TokenService.saveAccessToken(token)
         return token
